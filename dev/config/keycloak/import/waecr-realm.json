@@ -125,12 +125,12 @@
   "clients": [
      {
        "id": "a9925af1-4dcb-4791-bb2d-0087758b8f18",
-       "clientId": "shl_creator",
+       "clientId": "ECR_FOLLOWUP",
        "name": "SMART Health Links Creator",
        "description": "",
-       "rootUrl": "${KEYCLOAK_SHL_CREATOR_BASE}",
+       "rootUrl": "${KEYCLOAK_ECR_FOLLOWUP_BASE}",
        "adminUrl": "",
-       "baseUrl": "${KEYCLOAK_SHL_CREATOR_BASE}",
+       "baseUrl": "${KEYCLOAK_ECR_FOLLOWUP_BASE}",
        "surrogateAuthRequired": false,
        "enabled": true,
        "alwaysDisplayInConsole": false,

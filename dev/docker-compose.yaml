@@ -85,8 +85,8 @@ services:
 
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KEYCLOAK_SHL_CREATOR_BASE: https://shl-creator.${BASE_DOMAIN}
-      KEYCLOAK_SHL_CREATOR_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}/users
+      KEYCLOAK_ECR_FOLLOWUP_BASE: https://ecr-followup.${BASE_DOMAIN}
+      KEYCLOAK_ECR_FOLLOWUP_LOGOUT_REDIRECT_URL: https://${BASE_DOMAIN}/users
 
     env_file:
       - keycloak.env
@@ -117,7 +117,7 @@ services:
       - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.tls=true
       - traefik.http.routers.fhir-auth-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
 
-      # TODO review if necessary for shl-creator service in same deploy
+      # TODO review if necessary for ecr-followup service in same deploy
       # add CORS middleware, configured to return `Access-Control-Allow-Origin: *`
       # NB accessControlAllowOrigin is deprecated, but not noted in docs
       # https://github.com/traefik/traefik/issues/8796
@@ -132,8 +132,8 @@ services:
       - ingress
       - internal
 
-  shl-creator:
-    image: ghcr.io/uwcirg/shl-waecr:${SHL_CREATOR_IMAGE_TAG:-latest}
+  ecr-followup:
+    image: ghcr.io/uwcirg/ecr-followup:${ECR_FOLLOWUP_IMAGE_TAG:-latest}
     environment:
       VITE_SOF_ISS: https://fhir-auth.${BASE_DOMAIN}/fhir
       VITE_OIDC_SERVER_BASE: https://keycloak.${BASE_DOMAIN}
@@ -141,13 +141,13 @@ services:
       VITE_OIDC_CHECK_SESSION_IFRAME: https://keycloak.${BASE_DOMAIN}/realms/waecr/protocol/openid-connect/login-status-iframe.html
       VITE_POST_LOGOUT_REDIRECT_URI: https://${BASE_DOMAIN}/users
     env_file:
-      shl-creator.env
+      ecr-followup.env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.rule=Host(`shl-creator.${BASE_DOMAIN}`)
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls=true
-      - traefik.http.routers.shl-creator-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
+      - traefik.http.routers.ecr-followup-${COMPOSE_PROJECT_NAME}.rule=Host(`ecr-followup.${BASE_DOMAIN}`)
+      - traefik.http.routers.ecr-followup-${COMPOSE_PROJECT_NAME}.entrypoints=websecure
+      - traefik.http.routers.ecr-followup-${COMPOSE_PROJECT_NAME}.tls=true
+      - traefik.http.routers.ecr-followup-${COMPOSE_PROJECT_NAME}.tls.certresolver=letsencrypt
     networks:
       - ingress
 
